@@ -1,6 +1,5 @@
 package com.project1.questapp.services;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -11,21 +10,17 @@ import com.project1.questapp.repos.CommentRepository;
 import com.project1.questapp.requests.CommentCreateRequest;
 import com.project1.questapp.requests.CommentUpdateRequest;
 import com.project1.questapp.services.CommentService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 @Service
 public class CommentService {
 
 	private CommentRepository commentRepository;
-	//private UserService userService;
-	//private PostService postService;
+	private UserService userService;
+	private PostService postService;
 
 	public CommentService(CommentRepository commentRepository) {
 		this.commentRepository = commentRepository;
-		//this.userService = userService;
-		//this.postService = postService;
+		
 	}
 
 	public List <Comment> getAllCommentsWithParam(Optional<Long> userId, Optional<Long> postId) {
@@ -37,7 +32,6 @@ public class CommentService {
 			return commentRepository.findByPostId(postId.get());
 		}else
 			return commentRepository.findAll();
-		return comments.stream().map(comment -> new CommentResponse(comment)
 	}
 
 	public Comment getOneCommentById(Long commentId) {
@@ -51,9 +45,8 @@ public class CommentService {
 			Comment commentToSave = new Comment();
 			commentToSave.setId(request.getId());
 			commentToSave.setPost(post);
-			commentToSave.setUser(user);
+			commentToSave.setUser();
 			commentToSave.setText(request.getText());
-			commentToSave.setCreateDate(new Date());
 			return commentRepository.save(commentToSave);
 		}else		
 			return null;
@@ -82,8 +75,6 @@ public class CommentService {
 			return commentRepository.findByPostId(postId.get());
 		}else
 			return commentRepository.findAll();
-		return comments.stream().map(comment -> new CommentResponse(comment)
-	}
 	}
 	
 	

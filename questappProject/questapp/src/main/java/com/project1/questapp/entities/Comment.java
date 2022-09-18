@@ -26,6 +26,7 @@ public class Comment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
+	
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="post_id", nullable=false)
@@ -43,5 +44,36 @@ public class Comment {
     @Column(columnDefinition="text")
 	String text;
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Post getPost() {
+		return post;
+	}
+
+	public void setPost(Post post) {
+		this.post = post;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(Object object) {
+		this.text = (String) object;
+	}
+
+	public User setUser() {
+		return user;
+	}
 	
+	public User getUser() {
+		return user;
+	}
+
 }

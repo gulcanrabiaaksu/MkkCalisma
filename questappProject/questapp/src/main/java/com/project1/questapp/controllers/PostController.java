@@ -31,12 +31,6 @@ public class PostController {
 		return postService.getAllPosts(userId);
 	}
 
-	
-	@GetMapping("/{postId}")
-	public Post getOnePost(@PathVariable Long postId) {
-		return postService.getOnePostById(postId);
-	}
-	
 	@PostMapping
 	public Post createOnePost(@RequestBody PostCreateRequest newPost) {
 		return postService.createOnePost(newPost);
