@@ -1,0 +1,6 @@
+.conteiner{
+    display: flex; 
+    flex-wrap: wrap; /*sayfa doldugunda asagı in*/
+    justify-content: space-around; /* otomatik elemanları yerleştirme*/
+
+}
