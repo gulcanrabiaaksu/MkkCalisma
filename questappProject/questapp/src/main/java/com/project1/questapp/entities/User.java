@@ -29,10 +29,10 @@ public class User {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getUserName() {
+	public String getuserName() {
 		return userName;
 	}
-	public void setUserName(String userName) {
+	public void setuserName(String userName) {
 		this.userName = userName;
 	}
 	public int getAvatar() {

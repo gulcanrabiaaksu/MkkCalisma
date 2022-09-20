@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project1.questapp.services.PostService;
 import com.project1.questapp.entities.Post;
 import com.project1.questapp.requests.PostCreateRequest;
+import com.project1.questapp.requests.PostUpdateRequest;
+import com.project1.questapp.responses.PostResponse;
 
 @RestController
 @RequestMapping("/posts")
@@ -27,7 +29,7 @@ public class PostController {
 	}
 	
 	@GetMapping //postlardan olusan liste dondurecek
-	public List<Post> getAllPosts(@RequestParam Optional<Long> userId) {
+	public List<PostResponse> getAllPosts(@RequestParam Optional<Long> userId) {
 		return postService.getAllPosts(userId);
 	}
 
@@ -42,8 +44,8 @@ public class PostController {
 	}
 	
 	@PutMapping("/{postId}")
-	public Post updateOnePost(@PathVariable Long postId) {
-		return postService.updateOnePostById(postId);
+	public Post updateOnePost(@PathVariable Long postId, @RequestBody PostUpdateRequest updatePost) {
+		return postService.updateOnePostById(postId, updatePost);
 	}
 	
 	@DeleteMapping("/{postId}")

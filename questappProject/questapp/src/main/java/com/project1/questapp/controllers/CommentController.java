@@ -27,7 +27,7 @@ public class CommentController {
 	@GetMapping
 	public List<Comment> getAllComments(@RequestParam Optional<Long> userId, 
 			@RequestParam Optional<Long> postId) {
-		return commentService.getAllCommentWithParam(userId, postId);
+		return commentService.getAllCommentsWithParam(userId, postId);
 	}
 	
 	

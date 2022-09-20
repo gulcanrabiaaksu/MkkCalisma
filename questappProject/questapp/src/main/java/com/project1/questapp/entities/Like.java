@@ -35,4 +35,28 @@ public class Like {
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JsonIgnore
 	User user;
+
+	public void setId(Long id2) {
+		
+	}
+
+	public Post getPost() {
+		return post;
+	}
+
+	public void setPost(Post post) {
+		this.post = post;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Long getId() {
+		return id;
+	}
 }
