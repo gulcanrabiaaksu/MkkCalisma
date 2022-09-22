@@ -10,8 +10,10 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import CommentIcon from '@mui/icons-material/Comment';
-import Link from '@mui/icons-material/Link';
+import CommentIcon from '@material-ui/icons/Comment';
+import Comment from "../Comment/Comment";
+import Container from '@material-ui/core/Container';
+import CommentForm from '../Comment/CommentForm';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -31,9 +33,6 @@ const useStyles = makeStyles((theme) => ({
     duration: theme.transitions.duration.shortest,
     }),
   },
-  expandOpen: {
-    transform:'rotate(180deg)',
-  },
   avatar: {
     background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
   },
@@ -41,32 +40,46 @@ const useStyles = makeStyles((theme) => ({
 
 
 function Post(props){
-    const {title,text, userId, userName,postId} =props;
+    const {title,text, userName,postId, likes , userId} =props;
     const classes =useStyles();
     const[expanded, setExpanded] = useState(false); 
-    const [liked,setLiked] =useState(false);
     const [error,setError] =useState(null);
     const [isLoaded,setIsLoaded] =useState(false);
-    const isInitialMount = useRef(true);
-    const [commentList,setPostList] =useState([]);
+    const isInitialMount = useRef(true); //ilk kez mi load ediliyor biri tıkladı mı söyler
+    const [commentList,setCommentList] =useState([]);
+    //const [refresh, setRefresh] = useState(false);
+    const [likeCount, setLikeCount] = useState(likes.length);
+    const [isLiked,setisLiked] =useState(false);
 
     const handleExpandClick= () => {
         setExpanded(!expanded);
         refreshComents();
         console.log(commentList);
+        
     };
     const handleLike = ()=>{
-      setLiked(!liked);
-
-    }
+      setisLiked(!isLiked);
+      if(!isLiked){
+        saveLike();
+        setLikeCount(likeCount + 1)
+      }
+      else{
+        deleteLike();
+        setLikeCount(likeCount - 1)
+      }
+        
+     }
+     
+    
+  
 
     const refreshComents = ()=> {
-      fetch("/comments?postId="+postId)//yanında post ııd de var cunku sadece posta ait commentleri cekicez
+      fetch('http://localhost:3000/comments?postId=' + postId)//yanında post ıd de var cunku sadece posta ait commentleri cekicez
       .then(res =>res.json())
       .then(//iki ihtimal var result ve error
           (result) => {
               setIsLoaded(true);//data geldi
-              setPostList(result);//gelen resultu ata
+              setCommentList(result);//gelen resultu ata
           },
           (error) =>{
               console.log(error)
@@ -76,23 +89,46 @@ function Post(props){
       )
   }
   
+  const checkLikes= () => {
+    var likeControl =likes.find((like => like.userId === userId));
+    if(likeControl != null){
+      setisLiked(likeControl.id);
+      setisLiked(true);
+
+  }
+}
+const saveLike = () => {
+  fetch("/likes",{
+    postId: postId, 
+    userId : localStorage.getItem("currentUser"),
+  })
+    .then((res) => res.json())
+    .catch((err) => console.log(err))
+}
+
+const deleteLike = () => {
+  fetch("/likes/"+isLiked)
+    .catch((err) => console.log(err))
+}
+
   useEffect(()=> {
     if(isInitialMount.current)
     isInitialMount.current=false;
     else
     refreshComents();
-}, [commentList])
+  }, [commentList])
+
+  useEffect(()=>{checkLikes()},[])
 
     return(
-    <div className="postContainer">
         <Card className={classes.root}>
         <CardHeader
         avatar ={
-        <Link className={classes.link} to = {{pathname :"/users/" + userId}}>
-          <Avatar aria-label="recipe"  className={classes.avatar} >
-            { userName.charAt(0).toUpperCase()}
-            </Avatar>
-            </Link>
+          
+             <Avatar aria-label="recipe"  className={classes.avatar} >
+               {userName.charAt(0).toUpperCase()}
+              </Avatar>
+          
           }
           title={title} 
           />
@@ -104,9 +140,11 @@ function Post(props){
         <CardActions disableSpacing>
           <IconButton 
           onClick={handleLike}
-          aria-label="add to favorites">
-            <FavoriteIcon style={liked?{ color:"red"} : null} />
+          aria-label="add to favorites"
+          >
+            <FavoriteIcon style={isLiked?{ color:"red"} : null} />
           </IconButton>
+          {likeCount}
           <IconButton
           className = {clsx(classes.expand, {
             [classes.expandOpen]: expanded,
@@ -119,11 +157,16 @@ function Post(props){
             </IconButton>
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <CardContent>
-          </CardContent>
+        <Container fixed className = {classes.container}>
+          {error? "error" :
+         isLoaded? commentList.map(comment => (
+         <Comment userId = {1} userName = {"user"} text = {comment.text}></Comment>
+           )) : "Loading"}
+           <CommentForm userId = {1} userName = {"user"} postId = {postId}></CommentForm>
+        </Container>
         </Collapse>
       </Card>
-    </div>
+    
     )
 }
 

@@ -6,6 +6,7 @@ import User from './components/User/User';
 //java switch case benzeridir. pathler arasında hangisini sececegimisi gosteriyor.
 //sadece anasayfada home componenti derlenecek
 //user anasayfada user componenti derlenecek
+//fetch('/search?q=proxy')
 function App() {
   return (
     <div className="App">

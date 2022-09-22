@@ -22,12 +22,12 @@ function Home()
     const classes = useStyles();
 
     const refreshPosts = ()=> {
-        fetch("/posts")//datayı fetch et
+        fetch("http://localhost:3000/posts")//datayı fetch et
         .then(res =>res.json())
         .then(//iki ihtimal var result ve error
             (result) => {
                 setIsLoaded(true)//data geldi
-                setPostList(result)//gelen resultu ata
+                setPostList(result) //gelen resultu ata
             },
             (error) =>{
                 console.log(error)
@@ -38,8 +38,8 @@ function Home()
     }
 
     useEffect(()=> {
-        refreshPosts()
-    }, [postList])
+    refreshPosts()
+    }, [] )
 
     if (error) {//error varsa buaraya girecek
         return <div> Error!!</div>;
@@ -49,14 +49,13 @@ function Home()
                 return (
                 <div fixed className= {classes.Container}>
                     <PostForm userId={1} userName={"ddd"} refreshPosts={refreshPosts}/> 
-                {postList.map(post => (
-                    <Post postId={post.id} userId={post.userId} userName={post.userName} 
+                    {postList.map(post => (
+                    <Post likes={post.postLikes} postId={post.id} userId={post.userId} userName={post.userName} 
                     title={post.title} text={post.text} ></Post>
                     ))}
                 </div>
-               
             );
-    }
+        }
 }
 
 export default Home;

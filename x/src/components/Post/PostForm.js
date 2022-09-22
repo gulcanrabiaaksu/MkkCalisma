@@ -10,8 +10,8 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import { InputAdornment } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
-
 import MuiAlert from '@material-ui/lab/Alert';
+
 
 
 function Alert(props) {
@@ -35,12 +35,14 @@ const useStyles = makeStyles((theme) => ({
     duration: theme.transitions.duration.shortest,
     }),
   },
-  expandOpen: {
-    //transform:'rotate(180deg)',
-  },
   avatar: {
     background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
   },
+  link: {
+    textDecoration : "none",
+    boxShadow : "none",
+    color : "white"
+}
 }));
 
 function PostForm(props){
@@ -48,29 +50,32 @@ function PostForm(props){
     const classes =useStyles();
     const[title,setTitle] =useState("");
     const[text,setText] =useState("");
-    const[isSent,setIsSent] = useState(false);
+    const[isSent,setIsSent] = useState(false)
   
-    
+    const savePost = () => {
+      fetch ('http://localhost:8080/posts',
+      { 
+          mode: 'cors',
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json",
+              "Access-Control-Allow-Origin": "*"
+          },
 
-const savePost = () => {
-    fetch ("/posts",
-    {
-        method: "POST",
-        headers: {
-            "Content-Type":"application/json"
-        },
-        body: JSON.stringify({
-            title : title,
-            userId : userId,
-            text : text,
-        }),
-    })
-    .then((res)=> res.json())
-    .catch((err)=> console.log("error"))
-}
-
+          body: JSON.stringify({
+              title : title,
+              userId : userId,
+              text : text,
+          }),
+        })
+      .then((res)=> res.json())
+      .catch((err)=> console.log("error >>> " + err))
+  }
+  
 
   const handleSubmit = ()=>{ //objeyi beckende gondermek ıcın bunu kullanıyoruz
+  //console.log(title,text);  
     savePost();
     setIsSent(true);
     setTitle("");
@@ -100,9 +105,9 @@ const savePost = () => {
 
   return(
         <div>
-        <Snackbar open={isSent} autoHideDuration={6000} onClose={handleClose}>
+        <Snackbar open={isSent} autoHideDuration={1200} onClose={handleClose}>
      <Alert onClose={handleClose} severity="success">
-        This is a success message!
+        Your post is sent!
     </Alert>
     </Snackbar>
     <Card className={classes.root}>
@@ -126,7 +131,7 @@ const savePost = () => {
         </OutlinedInput>} 
         />
       <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
+        <Typography >
           {<OutlinedInput
             id="outlined-adornment-amount"
             multiline
