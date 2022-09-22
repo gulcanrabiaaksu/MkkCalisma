@@ -7,7 +7,13 @@ public class CommentUpdateRequest {
 
 	String text;
 
-	public Object getText() {
-		return null;
+	public String getText() {
+		return text;
 	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	
 }

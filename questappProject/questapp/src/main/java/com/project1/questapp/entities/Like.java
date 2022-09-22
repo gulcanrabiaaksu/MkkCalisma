@@ -24,6 +24,7 @@ public class Like {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="post_id", nullable=false) // baglandigimizin haberini verir
 	@OnDelete(action = OnDeleteAction.CASCADE) 
@@ -36,8 +37,13 @@ public class Like {
 	@JsonIgnore
 	User user;
 
-	public void setId(Long id2) {
-		
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public Post getPost() {
@@ -56,7 +62,4 @@ public class Like {
 		this.user = user;
 	}
 
-	public Long getId() {
-		return id;
-	}
 }

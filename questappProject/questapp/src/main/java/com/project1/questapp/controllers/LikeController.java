@@ -3,6 +3,8 @@ package com.project1.questapp.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,23 +15,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.project1.questapp.entities.Like;
 import com.project1.questapp.requests.LikeCreateRequest;
+import com.project1.questapp.responses.LikeResponse;
 import com.project1.questapp.services.LikeService;
+//import com.project1.questapp.services.PostService;
 
-//import com.project1.questapp.responses.LikeResponse;
 
 @RestController
 @RequestMapping("/likes")
+@CrossOrigin(origins = "http://localhost:3000/")
 public class LikeController {
 
+	@Autowired
 	private LikeService likeService;
-
+//	@Autowired
+//	private PostService postService;
 	public LikeController(LikeService likeService) {
 		this.likeService = likeService;
 	}
-
 	
 	@GetMapping
-	public List<Like> getAllLikes(@RequestParam Optional<Long> userId, 
+	public List<LikeResponse> getAllLikes(@RequestParam Optional<Long> userId, 
 			@RequestParam Optional<Long> postId) {
 		return likeService.getAllLikesWithParam(userId, postId);
 	}

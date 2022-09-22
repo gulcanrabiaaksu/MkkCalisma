@@ -1,31 +1,31 @@
 package com.project1.questapp.responses;
 
-
 import java.io.Serializable;
-
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import java.util.List;
 import com.project1.questapp.entities.Post;
 
 import lombok.Data;
 
 @Data
-@JsonAutoDetect(fieldVisibility = Visibility.ANY)
+//@JsonAutoDetect(fieldVisibility = Visibility.ANY)
 public class PostResponse implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	 Long id;
-	 Long userId;
-	 String userName;
-	 String title;
-	 String text;
+	public Long id;
+	 public Long userId;
+	 public String userName;
+	 public String title;
+	 public String text;
+	 public List<LikeResponse> postLikes;
 
-	public PostResponse(Post entity) {
+	public PostResponse(Post entity, List<LikeResponse> likes) {
 		this.id= entity.getId();
 		this.userId= entity.getUser().getId();
 		this.userName=entity.getUser().getuserName();
 		this.title =entity.getTitle();
 		this.text=entity.getText();
+		this.postLikes= likes;
 		}
 }
+

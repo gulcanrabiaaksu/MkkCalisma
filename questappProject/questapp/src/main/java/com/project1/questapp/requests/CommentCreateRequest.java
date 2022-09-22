@@ -11,8 +11,7 @@ public class CommentCreateRequest {
 	String text;
 	
 	public Long getUserId() {
-		// TODO Auto-generated method stub
-		return null;
+		return userId;
 	}
 	public Long getId() {
 		return id;

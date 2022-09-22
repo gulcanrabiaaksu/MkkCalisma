@@ -13,14 +13,16 @@ import lombok.Data;
 @Data
 public class User {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id// varligin birincil anahtarini belirtir
+	@GeneratedValue(strategy = GenerationType.IDENTITY)//Veritabanına bu alan için otomatik olarak bir değer üretmesini bildirir
+	/*  IDENTITY
+	 *  bir veritabanı kimliği sütunu kullanarak varlık için birincil anahtarlar ataması gerektiğini belirtir.
+	 */
 	Long id;
 	String userName;
 	String password;
 	int avatar;
 	public Object getPassword() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	public Long getId() {

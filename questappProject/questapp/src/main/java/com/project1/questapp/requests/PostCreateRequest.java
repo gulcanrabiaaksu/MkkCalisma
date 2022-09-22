@@ -9,6 +9,7 @@ public class PostCreateRequest {
 	String text;
 	String title;
 	Long userId;
+	
 	public String getText() {
 		return text;
 	}

@@ -3,6 +3,8 @@ package com.project1.questapp.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,10 +22,12 @@ import com.project1.questapp.responses.PostResponse;
 
 @RestController
 @RequestMapping("/posts")
+@CrossOrigin(origins = "http://localhost:3000/")
 public class PostController {
 
+	@Autowired
 	private PostService postService;
-
+	@Autowired
 	public PostController(PostService postService) {
 		this.postService = postService;
 	}
@@ -31,6 +35,8 @@ public class PostController {
 	@GetMapping //postlardan olusan liste dondurecek
 	public List<PostResponse> getAllPosts(@RequestParam Optional<Long> userId) {
 		return postService.getAllPosts(userId);
+		/*List<PostResponse> list= postService.getAllPosts(userId);
+		return list;*/
 	}
 
 	@PostMapping

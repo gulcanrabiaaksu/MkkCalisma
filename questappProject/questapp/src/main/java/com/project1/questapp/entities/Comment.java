@@ -24,7 +24,7 @@ import lombok.Data;
 public class Comment {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	Long id;
 	
 
@@ -64,16 +64,18 @@ public class Comment {
 		return text;
 	}
 
-	public void setText(Object object) {
-		this.text = (String) object;
-	}
-
-	public User setUser() {
-		return user;
-	}
-	
 	public User getUser() {
 		return user;
 	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	
 
 }

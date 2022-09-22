@@ -2,6 +2,8 @@ package com.project1.questapp.services;
 
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.project1.questapp.entities.Comment;
 import com.project1.questapp.entities.Post;
@@ -13,15 +15,17 @@ import com.project1.questapp.services.CommentService;
 
 @Service
 public class CommentService {
-
+	
+	@Autowired
 	private CommentRepository commentRepository;
+	
+	@Autowired
 	private UserService userService;
+	
+	@Autowired
 	private PostService postService;
 
-	public CommentService(CommentRepository commentRepository) {
-		this.commentRepository = commentRepository;
-		
-	}
+
 
 	public List <Comment> getAllCommentsWithParam(Optional<Long> userId, Optional<Long> postId) {
 		if(userId.isPresent() && postId.isPresent()) {
@@ -45,7 +49,7 @@ public class CommentService {
 			Comment commentToSave = new Comment();
 			commentToSave.setId(request.getId());
 			commentToSave.setPost(post);
-			commentToSave.setUser();
+			commentToSave.setUser(user);
 			commentToSave.setText(request.getText());
 			return commentRepository.save(commentToSave);
 		}else		
