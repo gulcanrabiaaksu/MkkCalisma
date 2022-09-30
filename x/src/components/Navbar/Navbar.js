@@ -1,11 +1,14 @@
-import {Link} from "react-router-dom";
+import React, {useState} from "react"; 
+import {Link, useHistory} from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
-import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
+import MenuIcon from '@material-ui/icons/Menu';
+import { LockOpen } from "@material-ui/icons";
+import {ThemeProvider,Switch, createMuiTheme, CssBaseline} from "@material-ui/core";
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -15,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
       marginRight: theme.spacing(2),
     },
     title: {
-      flexGrow: 1, //alanı ikiye böl ikisine de alan ayır demektir.
+      flexGrow: 1,
       textAlign : "left"
     },
     link: {
@@ -26,28 +29,69 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 function Navbar() {
+    const classes = useStyles();
+    let history = useHistory();
+    const [darkMode,setDarkMode] =useState(false);
+
+
+    
+  const theme = createMuiTheme({
+    palette: {
+      type: darkMode ? 'dark' : 'light',
+    }
+  })
   
-  const classes=useStyles();
-//bu linkler routelarla eslesecek.
-//user linki parametre icerdiği için boyle yazdık.
-  let userId=5;//userID tanımladık.
-  return(
-    <div>
-       <AppBar position="static">
+  const handleDarkMode = () => {
+    setDarkMode(!darkMode);
+  }
+
+    const onClick = () => {
+      localStorage.removeItem("tokenKey")
+      localStorage.removeItem("currentUser")
+      localStorage.removeItem("refreshKey")
+      localStorage.removeItem("userName")
+      history.go(0)
+    }
+    return(
+        <div>
+        <AppBar position="static">
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-          <Link className = {classes.link} to="/">Home</Link>
+          <Link className={classes.link} to="/">Home</Link>
           </Typography>
-          <Typography variant="h6" > 
-         <Link className={classes.link} to = {{pathname :"/users/" + userId}}>User</Link>
+          <Typography variant="h6">
+            {localStorage.getItem("currentUser") == null ? <Link  className={classes.link} to="/auth">Login/Register</Link>:
+             <div><IconButton className={classes.link} onClick = {onClick}><LockOpen></LockOpen></IconButton>
+            <Link  className={classes.link} to={{pathname : '/users/' + localStorage.getItem("currentUser")}}>Profile</Link>
+            </div>}
           </Typography>
+          <ThemeProvider theme={theme}>
+      <CssBaseline>
+          <Switch onChange={handleDarkMode} value={darkMode}/>
+          </CssBaseline>
+    </ThemeProvider>
+        
         </Toolbar>
       </AppBar>
-    </div>
-  )
-}  
-   
+        </div>
+    )
+}
+
 export default Navbar;
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,62 +1,62 @@
 import React, {useState, useEffect} from "react";
 import Post from '../Post/Post';
-import PostForm from "../Post/PostForm";
 import { makeStyles } from '@material-ui/core/styles';
+import PostForm from "../Post/PostForm";
 
 const useStyles = makeStyles((theme) => ({
-    Container: {
+    container: {
         display: "flex",
         flexWrap: "wrap",
         justifyContent : "center",
         alignItems : "center",
-        backgroundColor: '#300000',
-        
+        //backgroundColor: '#f0f5ff',
     }
 }));
 
-function Home() 
-    {
-    const[error,setError]=useState(null); //ilk durumda null, error yok
-    const[isLoaded,setIsLoaded]=useState(false); //ilk durumda false
-    const[postList,setPostList] =useState([]);
+function Home() {
+    const [error, setError] = useState(null);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [postList, setPostList] = useState([]);
     const classes = useStyles();
 
-    const refreshPosts = ()=> {
-        fetch("http://localhost:3000/posts")//datayı fetch et
-        .then(res =>res.json())
-        .then(//iki ihtimal var result ve error
+
+    const refreshPosts = () => {
+        fetch("http://localhost:3000/posts")
+        .then(res => res.json())
+        .then(
             (result) => {
-                setIsLoaded(true)//data geldi
-                setPostList(result) //gelen resultu ata
+                setIsLoaded(true);
+                setPostList(result);
             },
-            (error) =>{
+            (error) => {
                 console.log(error)
-                setIsLoaded(true)//sayfa donerde kalmaz yine true olucak,sayfa geldi
-                setError(error)
+                setIsLoaded(true);
+                setError(error);
             }
         )
     }
 
-    useEffect(()=> {
-    refreshPosts()
-    }, [] )
+    useEffect(() => {
+        refreshPosts()
+    }, [])
 
-    if (error) {//error varsa buaraya girecek
-        return <div> Error!!</div>;
-        } else if (!isLoaded){//dolmadıysa, yükleniyorsa
-            return <div> Loading...</div>;
-            } else {
-                return (
-                <div fixed className= {classes.Container}>
-                    <PostForm userId={1} userName={"ddd"} refreshPosts={refreshPosts}/> 
-                    {postList.map(post => (
-                    <Post likes={post.postLikes} postId={post.id} userId={post.userId} userName={post.userName} 
-                    title={post.title} text={post.text} ></Post>
-                    ))}
-                </div>
-            );
-        }
+    if(error) {
+        return <div> Error !!!</div>;
+    } else if(!isLoaded) {
+        return <div> Loading... </div>;
+    } else {
+        return(
+
+            <div className = {classes.container}>
+                {localStorage.getItem("currentUser") == null? "":
+                <PostForm userId = {localStorage.getItem("currentUser")} userName = {localStorage.getItem("userName")}  refreshPosts = {refreshPosts}/>}
+                   {postList.map(post => (
+                    <Post likes = {post.postLikes} postId = {post.id} userId = {post.userId} userName = {post.userName}  
+                    title={post.title} text={post.text}></Post>
+                ))}
+            </div>
+        );
+    }
 }
 
 export default Home;
-   
