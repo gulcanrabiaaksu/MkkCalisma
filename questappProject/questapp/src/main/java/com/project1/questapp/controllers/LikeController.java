@@ -17,7 +17,6 @@ import com.project1.questapp.entities.Like;
 import com.project1.questapp.requests.LikeCreateRequest;
 import com.project1.questapp.responses.LikeResponse;
 import com.project1.questapp.services.LikeService;
-//import com.project1.questapp.services.PostService;
 
 
 @RestController
@@ -27,11 +26,6 @@ public class LikeController {
 
 	@Autowired
 	private LikeService likeService;
-//	@Autowired
-//	private PostService postService;
-	public LikeController(LikeService likeService) {
-		this.likeService = likeService;
-	}
 	
 	@GetMapping
 	public List<LikeResponse> getAllLikes(@RequestParam Optional<Long> userId, 
@@ -53,5 +47,4 @@ public class LikeController {
 	public void deleteOneLike(@PathVariable Long likeId) {
 		likeService.deleteOneLikeById(likeId);
 	}
-	
 }

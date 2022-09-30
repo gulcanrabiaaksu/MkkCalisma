@@ -1,5 +1,6 @@
 package com.project1.questapp.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,29 +14,36 @@ import lombok.Data;
 @Data
 public class User {
 
-	@Id// varligin birincil anahtarini belirtir
-	@GeneratedValue(strategy = GenerationType.IDENTITY)//Veritabanına bu alan için otomatik olarak bir değer üretmesini bildirir
-	/*  IDENTITY
-	 *  bir veritabanı kimliği sütunu kullanarak varlık için birincil anahtarlar ataması gerektiğini belirtir.
-	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
+	
+	@Column
 	String userName;
+	
+	@Column
 	String password;
+	
+	@Column
 	int avatar;
-	public Object getPassword() {
-		return null;
-	}
+	
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getuserName() {
+	public String getUserName() {
 		return userName;
 	}
-	public void setuserName(String userName) {
+	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	public int getAvatar() {
 		return avatar;
@@ -43,8 +51,6 @@ public class User {
 	public void setAvatar(int avatar) {
 		this.avatar = avatar;
 	}
-	public void setPassword(Object object) {
-		this.password = (String) object;
-	}
+	
 	
 }

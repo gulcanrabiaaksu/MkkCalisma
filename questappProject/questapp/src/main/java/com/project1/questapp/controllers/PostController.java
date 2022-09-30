@@ -27,26 +27,21 @@ public class PostController {
 
 	@Autowired
 	private PostService postService;
-	@Autowired
-	public PostController(PostService postService) {
-		this.postService = postService;
-	}
-	
-	@GetMapping //postlardan olusan liste dondurecek
+
+	@GetMapping
 	public List<PostResponse> getAllPosts(@RequestParam Optional<Long> userId) {
 		return postService.getAllPosts(userId);
-		/*List<PostResponse> list= postService.getAllPosts(userId);
-		return list;*/
 	}
 
 	@PostMapping
-	public Post createOnePost(@RequestBody PostCreateRequest newPost) {
-		return postService.createOnePost(newPost);
+	public Post createOnePost(@RequestBody PostCreateRequest newPostRequest) {
+		return postService.createOnePost(newPostRequest);
 	}
-
+	
+	
 	@GetMapping("/{postId}")
-	public Post getOnePost1(@PathVariable Long postId) {
-		return postService.getOnePostById(postId);
+	public PostResponse getOnePost(@PathVariable Long postId) {
+		return postService.getOnePostByIdWithLikes(postId);
 	}
 	
 	@PutMapping("/{postId}")

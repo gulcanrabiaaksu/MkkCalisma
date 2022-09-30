@@ -7,13 +7,19 @@ public class PostUpdateRequest {
 
 	String title;
 	String text;
-	public String getText() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-		
+	
 	public String getTitle() {
-		// TODO Auto-generated method stub
-		return null;
+		return title;
 	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getText() {
+		return text;
+	}
+	public void setText(String text) {
+		this.text = text;
+	}
+	
+
 }

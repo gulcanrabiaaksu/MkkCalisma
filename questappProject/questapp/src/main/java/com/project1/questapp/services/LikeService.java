@@ -3,32 +3,28 @@ package com.project1.questapp.services;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 import com.project1.questapp.entities.Like;
 import com.project1.questapp.entities.Post;
 import com.project1.questapp.entities.User;
 import com.project1.questapp.repos.LikeRepository;
 import com.project1.questapp.requests.LikeCreateRequest;
 import com.project1.questapp.responses.LikeResponse;
-@Service
 
+@CrossOrigin(origins = "http://localhost:3000/")
+@Service
 public class LikeService {
 
-	
+	@Autowired
 	private LikeRepository likeRepository;
-
+	@Autowired
 	private UserService userService;
-	
+	@Autowired
 	private PostService postService;
-	
-//	private LikeService likeService;
-
-	public LikeService(LikeRepository likeRepository, UserService userService, 
-			PostService postService) {
-		this.likeRepository = likeRepository;
-		this.userService = userService;
-		this.postService = postService;
-	}
 
 	public List<LikeResponse> getAllLikesWithParam(Optional<Long> userId, Optional<Long> postId) {
 		List<Like> list;

@@ -3,8 +3,9 @@ package com.project1.questapp.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,46 +15,62 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project1.questapp.entities.User;
+import com.project1.questapp.exceptions.UserNotFoundException;
+import com.project1.questapp.responses.UserResponse;
 import com.project1.questapp.services.UserService;
-
 
 @RestController
 @RequestMapping("/users")
 @CrossOrigin(origins = "http://localhost:3000/")
-
 public class UserController {
+	
 	@Autowired
 	private UserService userService;
 	
-	public UserController(UserService userRepository, UserService userService){
-		//this.userService=userService;
-	}
-	
 	@GetMapping
-	public List<User> getAllUsers(){
-		return userService.getAllUsers();
+	public List<UserResponse> getAllUsers(){
+		return userService.getAllUsers().stream().map(u -> new UserResponse(u)).toList();
 	}
 	
 	@PostMapping
-	public User createUser (@RequestBody User newUser) {
-		return userService.saveOneUser(newUser);
+	public ResponseEntity<Void> createUser(@RequestBody User newUser) {
+		User user = userService.saveOneUser(newUser);
+		if(user != null) 
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@GetMapping("/{userId}")
-	public User getOneUser(@PathVariable Long userId) {
-		//custom exception
-		return userService.getOneUserById(userId);
+	public UserResponse getOneUser(@PathVariable Long userId) {
+		User user = userService.getOneUserById(userId);
+		if(user == null) {
+			throw new UserNotFoundException();
+		}
+		return new UserResponse(user);
 	}
 	
 	@PutMapping("/{userId}")
-	public User updateOneUser(@PathVariable Long userId, @RequestBody User newUser) {
-		return userService.updateOneUser(userId,newUser);
-	}
-	
-	@DeleteMapping("/{userId}")
-	public void deleteOneUser (@PathVariable Long userId) {
-		userService .deleteById(userId); 
-	}
-	
-}
+	public ResponseEntity<Void> updateOneUser(@PathVariable Long userId, @RequestBody User newUser) {
+		User user = userService.updateOneUser(userId, newUser);
+		if(user != null) 
+			return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 
+	}
+	/*
+	@DeleteMapping("/{userId}")
+	public void deleteOneUser(@PathVariable Long userId) {
+		userService.deleteById(userId);
+	}
+	*/
+	@GetMapping("/activity/{userId}")
+	public List<Object> getUserActivity(@PathVariable Long userId) {
+		return userService.getUserActivity(userId);
+	}
+	/*
+	@ExceptionHandler(UserNotFoundException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	private void handleUserNotFound() {
+		
+	}*/
+}

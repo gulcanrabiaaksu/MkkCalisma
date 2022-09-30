@@ -2,18 +2,21 @@ package com.project1.questapp.services;
 
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import com.project1.questapp.entities.Comment;
 import com.project1.questapp.entities.Post;
 import com.project1.questapp.entities.User;
 import com.project1.questapp.repos.CommentRepository;
 import com.project1.questapp.requests.CommentCreateRequest;
 import com.project1.questapp.requests.CommentUpdateRequest;
-import com.project1.questapp.services.CommentService;
+import com.project1.questapp.responses.CommentResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 
+@CrossOrigin(origins = "http://localhost:3000/")
 @Service
+
 public class CommentService {
 	
 	@Autowired
@@ -25,17 +28,17 @@ public class CommentService {
 	@Autowired
 	private PostService postService;
 
-
-
-	public List <Comment> getAllCommentsWithParam(Optional<Long> userId, Optional<Long> postId) {
+	public List<CommentResponse> getAllCommentsWithParam(Optional<Long> userId, Optional<Long> postId) {
+		List<Comment> comments;
 		if(userId.isPresent() && postId.isPresent()) {
-			return commentRepository.findByUserIdAndPostId(userId.get(), postId.get());
+			comments = commentRepository.findByUserIdAndPostId(userId.get(), postId.get());
 		}else if(userId.isPresent()) {
-			return commentRepository.findByUserId(userId.get());
+			comments = commentRepository.findByUserId(userId.get());
 		}else if(postId.isPresent()) {
-			return commentRepository.findByPostId(postId.get());
+			comments = commentRepository.findByPostId(postId.get());
 		}else
-			return commentRepository.findAll();
+			comments = commentRepository.findAll();
+		return comments.stream().map(comment -> new CommentResponse(comment)).collect(Collectors.toList());
 	}
 
 	public Comment getOneCommentById(Long commentId) {
@@ -51,6 +54,7 @@ public class CommentService {
 			commentToSave.setPost(post);
 			commentToSave.setUser(user);
 			commentToSave.setText(request.getText());
+			//commentToSave.setCreateDate(new Date());
 			return commentRepository.save(commentToSave);
 		}else		
 			return null;
@@ -69,5 +73,9 @@ public class CommentService {
 	public void deleteOneCommentById(Long commentId) {
 		commentRepository.deleteById(commentId);
 	}
-
+	
+	
 }
+
+
+

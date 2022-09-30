@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.project1.questapp.entities.Comment;
 import com.project1.questapp.requests.CommentCreateRequest;
 import com.project1.questapp.requests.CommentUpdateRequest;
+import com.project1.questapp.responses.CommentResponse;
 import com.project1.questapp.services.CommentService;
 
 @RestController
@@ -27,12 +29,9 @@ public class CommentController {
 	@Autowired
 	private CommentService commentService;
 	
-	public CommentController(CommentService commentService) {
-		this.commentService = commentService;
-	}
 	
 	@GetMapping
-	public List<Comment> getAllComments(@RequestParam Optional<Long> userId, 
+	public List<CommentResponse> getAllComments(@RequestParam Optional<Long> userId, 
 			@RequestParam Optional<Long> postId) {
 		return commentService.getAllCommentsWithParam(userId, postId);
 	}
@@ -56,5 +55,7 @@ public class CommentController {
 	public void deleteOneComment(@PathVariable Long commentId) {
 		commentService.deleteOneCommentById(commentId);
 	}
-	
 }
+
+
+

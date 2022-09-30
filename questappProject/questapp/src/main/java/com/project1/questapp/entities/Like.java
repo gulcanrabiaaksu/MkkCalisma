@@ -11,6 +11,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -19,6 +20,7 @@ import lombok.Data;
 @Entity
 @Table(name="p_like")
 @Data
+@CrossOrigin(origins = "http://localhost:3000/")
 public class Like {
 
 	@Id
@@ -26,8 +28,8 @@ public class Like {
 	Long id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="post_id", nullable=false) // baglandigimizin haberini verir
-	@OnDelete(action = OnDeleteAction.CASCADE) 
+	@JoinColumn(name="post_id", nullable=false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JsonIgnore
 	Post post;
 	
@@ -37,7 +39,6 @@ public class Like {
 	@JsonIgnore
 	User user;
 
-	
 	public Long getId() {
 		return id;
 	}
@@ -61,5 +62,9 @@ public class Like {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
+	
 }
+
+
+
+
