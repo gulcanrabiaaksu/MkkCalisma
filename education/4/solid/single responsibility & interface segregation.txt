@@ -1,0 +1,13 @@
+
+Single Resp.
+Kendi görevine odaklılık; başka görevleri yapmamak.
+belirli bir göreve odaklılık (class'ta)
+
+
+https://gokhana.medium.com/interface-segregation-prensibi-nedir-kod-%C3%B6rne%C4%9Fiyle-soli%CC%87d-ac0fd6812ecf
+Ayrı ayrı interface'lere bölümlendirmek.
+belirli bir göreve odaklılık (interface'de)
+
+
+@FunctionalInterface annotation
+birden fazla metot eklenmemesi için
