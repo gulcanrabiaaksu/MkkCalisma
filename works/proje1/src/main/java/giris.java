@@ -1,11 +1,12 @@
 
 public class giris extends javax.swing.JFrame {
 
-    public giris() {
+	private static final long serialVersionUID = 1L;
+	public giris() {
         initComponents();
     }
     
-    @SuppressWarnings("unchecked")
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -21,7 +22,7 @@ public class giris extends javax.swing.JFrame {
 
         jLabel1.setText("BOY:");
 
-        jLabel2.setText("KİLO:");
+        jLabel2.setText("KILO:");
 
         jTextField1.setBackground(new java.awt.Color(204, 204, 255));
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -39,7 +40,7 @@ public class giris extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setText("SONUÇ:");
+        jLabel4.setText("SONUC:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="questappBackend/questapp/src/main/java"/>
+	<classpathentry kind="src" path="questappBackend/questapp/src/test/java"/>
+	<classpathentry kind="src" path="works/proje1/src/main/java"/>
+	<classpathentry kind="src" path="works/proje2/src/main/java"/>
+	<classpathentry kind="src" path="works/w1-object/src"/>
+	<classpathentry kind="src" path="works/w2-unittest/src"/>
+	<classpathentry kind="src" path="works/w3-colection/src"/>
+	<classpathentry kind="src" path="works/w4-comperable/src"/>
+	<classpathentry kind="src" path="works/w5-binarytree/src"/>
+	<classpathentry kind="lib" path="questappBackend/questapp/.mvn/wrapper/maven-wrapper.jar"/>
+	<classpathentry kind="lib" path="questappBackend/questapp/bin/.mvn/wrapper/maven-wrapper.jar"/>
+	<classpathentry kind="output" path="questappBackend/questapp/target/classes"/>
+</classpath>

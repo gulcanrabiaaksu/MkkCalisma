@@ -2,7 +2,6 @@ package binarytree;
 
 class Node {
 
-	
 	int value;
 	Node right;
 	Node left;
@@ -61,11 +60,8 @@ class Node {
 			}
 		System.out.println(this.value);
 		}
-	
-	
 
 }
-
 
 	public class BinTree{
 		Node root=null; //kok root olusturduk null verdik

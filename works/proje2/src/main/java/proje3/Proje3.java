@@ -1,5 +1,5 @@
 package proje3;
-//DOSYALAMA İSLEMLERİ
+//DOSYALAMA ISLEMLERI
 
 import java.io.File;
 import java.io.FilterOutputStream;
@@ -12,7 +12,7 @@ public class Proje3 {
     public static void DosyaYaz(String veri) throws FileNotFoundException{
         File file=new File("C:\\Users\\GÜLCAN RABİA\\Desktop\\deneme1.txt");
         FileOutputStream dosya=new FileOutputStream(file);
-        //FileOutputStream dosya=new FileOutputStream(file,true); //tr ue ifadesi onceden yzilan yazilarin silinmemesini saglar.
+        //FileOutputStream dosya=new FileOutputStream(file,true); //true ifadesi onceden yazilan yazilarin silinmemesini saglar.
         try{
         dosya.write(veri.getBytes());//dosyaya yazicaz byte byte okuyarak
         dosya.flush();
@@ -41,3 +41,4 @@ public class Proje3 {
         DosyaOku();
     }
 }
+
